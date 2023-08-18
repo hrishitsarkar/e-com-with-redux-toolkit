@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { productsFetch } from './redux/reducers/products/productReducer';
-
+import { db } from './firebaseInIt';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 store.dispatch(productsFetch());
 root.render(

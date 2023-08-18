@@ -1,5 +1,5 @@
-const ProductCard = ({ product }) => {
-    console.log(product)
+const ProductCard = ( {product} ) => {
+    
     return (
         <div className="flex flex-col  shadow-2xl hover:shadow-2xl hover:shadow-indigo-500/40 w-[300px] items-center p-2 m-2">
             <h1 className="text-2xl m-2">{product.title}</h1>
@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
                 <h1 className="font-bold">&#8377;{product.price}</h1>
                 </span>
             </div>
-            <button className="w-[80%] bg-blue-800 text-white m-2 h-[50px] rounded-lg font-bold">Add to Cart</button>
+            <button className="w-[80%] bg-facebook-blue text-white m-2 h-[50px] rounded-lg font-bold">Add to Cart</button>
         </div>);
 }
 

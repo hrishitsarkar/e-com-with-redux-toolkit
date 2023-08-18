@@ -19,6 +19,11 @@ module.exports = {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
+    },
+    extend: {
+      colors: {
+        'facebook-blue': '#1877F2',
+      },
     }
   },
   plugins: [],
