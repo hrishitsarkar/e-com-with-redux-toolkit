@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import spirit from './spirit.png'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authSelector, signOutUserAsync } from '../redux/reducers/auth/authReducer';
+import { cartSelector } from '../redux/reducers/cart/cartReducer';
 const Navbar = () => {
     const { isLoggedIn } = useSelector(authSelector);
+    const {cartItems} = useSelector(cartSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const signOutUser = () => {
@@ -56,14 +58,16 @@ const Navbar = () => {
                     </svg>
                     <span className='font-bold hidden text-white  sm:block'>Sign Out</span>
                 </div>
-                <Link to="/cart">
+
+                <Link to={isLoggedIn ? "/cart" : "/sign-in"}>
                     <div className='flex h-[54px] w-auto items-center justify-between '>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="m-1 bi bi-bag-fill text-white text-2xl" viewBox="0 0 16 16">
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
                         </svg>
-                        <span className='flex items-center'>
-                            <span className='flex items-center w-[25px] h-[25px] justify-center bg-red-600 rounded-[50%] text-white text-[1.2rem]'>3</span>
-                        </span>
+                        {isLoggedIn ? <span className='flex items-center'>
+                            <span className='flex items-center w-[25px] h-[25px] justify-center bg-red-600 rounded-[50%] text-white text-[1.2rem]'>{cartItems.length}</span>
+                        </span> : null}
+                        
                     </div>
                 </Link>
             </div>

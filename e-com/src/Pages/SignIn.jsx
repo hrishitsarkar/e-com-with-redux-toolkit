@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector, signInUserAsync } from "../redux/reducers/auth/authReducer";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {isLoggedIn} = useSelector(authSelector)
+    const [loading,setLoading] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
         if(isLoggedIn){
             navigate("/");
         }
-    },[isLoggedIn])
+    },[isLoggedIn,navigate])
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(signInUserAsync({email,password}))
+        setLoading(!loading);
+        setTimeout(() => {
+            dispatch(signInUserAsync({email,password}))
+            setEmail("");
+            setPassword("");
+            setLoading(!loading)
+        },2000)
         
-        setEmail("");
-        setPassword("");
         
     }
     return (<>
@@ -31,7 +36,8 @@ const SignIn = () => {
             <form className="flex flex-col items-center justify-between " onSubmit={handleSubmit}>
                 <input type="email" className="m-2 p-2 border-[1px] border-blue-500 rounded-lg bg-slate-200" placeholder="Enter Email" required value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" className="m-2 p-2 border-[1px] border-blue-500 rounded-lg bg-slate-200" placeholder="Enter Password" required value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <button type="submit" className="bg-black m-2 p-2 text-white font-bold shadow-2xl rounded-lg hover:bg-facebook-blue ">Sign In</button>
+                <button type="submit" className="bg-black m-2 p-2 text-white font-bold shadow-2xl rounded-lg hover:bg-facebook-blue ">{loading ? <div className="flex items-center justify-between"><ClipLoader color="#36d7b7" /><span className="font-bold">Please wait</span></div> : "Sign In"}</button>
+                <p>New to FlexCart? <Link to="/sign-up"><span className="font-bold text-blue-700">Sign Up</span></Link></p>
             </form>
 
         </div>

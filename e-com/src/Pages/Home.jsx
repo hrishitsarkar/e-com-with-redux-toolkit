@@ -1,9 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { productSelector } from "../redux/reducers/products/productReducer";
 import { BarLoader } from 'react-spinners'
 import ProductCard from "../Components/ProductCard";
+import { useEffect } from "react";
+import { authSelector } from "../redux/reducers/auth/authReducer";
+import { getCartAsync } from "../redux/reducers/cart/cartReducer";
 const Home = () => {
     const { items, status, isLoading } = useSelector(productSelector);
+    const {uid} = useSelector(authSelector);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCartAsync(uid));
+    },[])
     return (<>
         {isLoading ? <div className="flex items-center justify-center "><BarLoader
             color="#9490e0"

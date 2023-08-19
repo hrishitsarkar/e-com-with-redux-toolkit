@@ -1,9 +1,11 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut } from "firebase/auth";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { toast } from "react-toastify";
 
 const initialState = {
     isLoggedIn: false,
-    error: ""
+    error: "",
+    uid : null,
 
 }
 
@@ -36,7 +38,7 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(signUpUserAsync.fulfilled, (state, action) => {
 
-            //do nothing
+            toast.success("Sign Up successful");
 
 
         })
@@ -48,13 +50,16 @@ const authSlice = createSlice({
             })
             .addCase(signInUserAsync.fulfilled, (state, action) => {
                 state.isLoggedIn = true;
-                console.log(action.payload)
+                state.uid = action.payload.user.uid;
+                toast.success("Sign In Successful");
+                
             })
             .addCase(signInUserAsync.rejected, (state, action) => {
                 console.log(action.error.message)
             })
             .addCase(signOutUserAsync.fulfilled,(state,action) => {
                 state.isLoggedIn = false;
+                toast.success("Sign Out successful")
             })
     }
 
