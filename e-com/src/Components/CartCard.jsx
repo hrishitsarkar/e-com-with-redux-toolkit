@@ -2,8 +2,8 @@ const CartCard = ({ item }) => {
     console.log(item)
     return (
         <div className="p-2 flex items-center justify-between w-[90%] m-2 border-b-2 border-black">
-            <div className="flex items-center justify-center">
-                <img className="w-[150px] h-[150px]" src={item.thumbnail} />
+            <div className="w-[15%] flex items-center justify-center">
+                <img className="w-[130px] h-[130px]" src={item.thumbnail} />
                 <div className="flex items-center flex-col justify-start m-2">
                     <h2 className="text-[1.2rem]">{item.title}</h2>
                     <span className="w-full flex items-center justify-start "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star-fill ml-2" viewBox="0 0 16 16">
@@ -11,15 +11,15 @@ const CartCard = ({ item }) => {
                     </svg>
                         <p className="ml-2">{item.rating}</p>
                     </span>
-                    <p className="text-red-400 cursor-pointer mt-5">Remove</p>
+                    <p className="text-gray-400 hover:text-red-600 cursor-pointer mt-5 text-[1.1rem]">Remove</p>
                 </div>
             </div>
 
-            <div className="flex items-center justify-center">
-                <p>{item.price}</p>
+            <div className="flex items-center justify-start text-[1.2rem]">
+                <p>&#8377;{item.price * item.qty}</p>
             </div>
             <div className="flex items-center justify-center">
-                <div className="w-[200px] h-[100px]">
+                <div className="w-[200px] border-[1px] border-black rounded-lg text-2xl h-[50px] flex items-center justify-around">
                     <button>-</button>
                     <p>{item.qty}</p>
                     <button>+</button>

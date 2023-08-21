@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
      <Router>
-     <ToastContainer />
+     <ToastContainer theme='colored' />
       <Navbar />
       <Routes>
         <Route path='/' element = {<Home />}  />
