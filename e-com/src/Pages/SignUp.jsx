@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector, signUpUserAsync } from "../redux/reducers/auth/authReducer";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import {toast} from 'react-toastify'
 const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
@@ -13,7 +14,7 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password.length < 6) {
-            console.log("please add a password more than 6 character")
+            toast.error("Please add a password more than 6 character")
             return;
         }
         setLoading(!loading);

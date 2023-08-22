@@ -14,7 +14,7 @@ const Home = () => {
     },[])
     return (<>
         {isLoading ? <div className="flex items-center justify-center "><BarLoader
-            color="#9490e0"
+            color="#36d7b7"
             width={1920} /></div> : <div className="flex items-center justify-between">
 
             <div className="w-[70%] overflow-y-scroll h-[90vh] pb-[50px] ">

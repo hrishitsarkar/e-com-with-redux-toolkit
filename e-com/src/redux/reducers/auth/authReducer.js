@@ -43,10 +43,13 @@ const authSlice = createSlice({
 
         })
             .addCase(signUpUserAsync.pending, (state, action) => {
+                
                 state.error = "pending error"
+
             })
             .addCase(signUpUserAsync.rejected, (state, action) => {
-                state.error = action.error.message;
+                toast.error("Invalid Email")
+                state.error = "error";
             })
             .addCase(signInUserAsync.fulfilled, (state, action) => {
                 state.isLoggedIn = true;
@@ -55,7 +58,7 @@ const authSlice = createSlice({
                 
             })
             .addCase(signInUserAsync.rejected, (state, action) => {
-                console.log(action.error.message)
+                toast.error("Invalid Username/Password")
             })
             .addCase(signOutUserAsync.fulfilled,(state,action) => {
                 state.isLoggedIn = false;
