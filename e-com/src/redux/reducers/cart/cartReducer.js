@@ -11,6 +11,7 @@ export const clearCartAsync = createAsyncThunk("cart/clearCartAsync",async (uid,
     querySnapshot.forEach(async(document) => {
         await deleteDoc(doc(db, `/usersCarts/${uid}/myCart`, document.id))
       });
+      toast.info("All items cleared from Cart")
 })
 export const decreaseQtyAsync = createAsyncThunk("cart/decreaseQtyAsync", async ({item,uid},thunkAPI) => {
 try {

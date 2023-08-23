@@ -3,9 +3,10 @@ import spirit from './spirit.png'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authSelector, signOutUserAsync } from '../redux/reducers/auth/authReducer';
 import { cartSelector } from '../redux/reducers/cart/cartReducer';
+import { productsFetchFromApi } from '../redux/reducers/products/productReducer';
 const Navbar = () => {
     const { isLoggedIn } = useSelector(authSelector);
-    const {cartItems} = useSelector(cartSelector);
+    const { cartItems } = useSelector(cartSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const signOutUser = () => {
@@ -24,7 +25,7 @@ const Navbar = () => {
 
                 </div>
             </Link>
-
+            <button className='text-white hidden' onClick={() => productsFetchFromApi()}>Add</button>
             <div className='w-[50%] flex items-center justify-end'>
                 <NavLink to="/sign-up" style={({ isActive }) => ({
 
@@ -51,6 +52,18 @@ const Navbar = () => {
                         <span className='font-bold hidden sm:block'>Sign In</span>
                     </div>
                 </NavLink>
+                <NavLink to="/orders" style={({ isActive }) => ({
+
+                    backgroundColor: isActive ? 'white' : 'black',
+                    color: isActive ? 'black' : 'white'
+                })}>
+                    <div className={isLoggedIn ? 'flex  w-auto flex-col items-center justify-between m-2 ' : "hidden"}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-box2-heart-fill " viewBox="0 0 16 16">
+                            <path d="M3.75 0a1 1 0 0 0-.8.4L.1 4.2a.5.5 0 0 0-.1.3V15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4.5a.5.5 0 0 0-.1-.3L13.05.4a1 1 0 0 0-.8-.4h-8.5ZM8.5 4h6l.5.667V5H1v-.333L1.5 4h6V1h1v3ZM8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+                        </svg>
+                        <span className='font-bold hidden  sm:block'>Orders</span>
+                    </div>
+                </NavLink>
                 <div onClick={signOutUser} className={isLoggedIn ? 'cursor-pointer flex  w-auto flex-col items-center justify-between m-2 ' : "hidden"}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-box-arrow-right text-white" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
@@ -67,7 +80,7 @@ const Navbar = () => {
                         {isLoggedIn ? <span className='flex items-center'>
                             <span className='flex items-center mr-1 sm:mr-0 w-[25px] h-[25px] justify-center bg-red-600 rounded-[50%] text-white text-[1.2rem]'>{cartItems.length}</span>
                         </span> : null}
-                        
+
                     </div>
                 </Link>
             </div>

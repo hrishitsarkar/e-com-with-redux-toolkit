@@ -9,6 +9,7 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Orders from './Pages/Orders';
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
         <Route path='/cart' element = {<Cart />} />
         <Route path='/sign-in' element = {<SignIn />} />
         <Route path='/sign-up' element = {<SignUp />} />
+        <Route path='/orders' element = {<Orders />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
         

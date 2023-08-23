@@ -50,7 +50,7 @@ const Cart = () => {
                     <h1 className="font-bold">Price</h1>
                     <h1 className="font-bold">Quantity</h1>
 
-                    {/* mt-[500px] sm:mt-[600px] */}
+                    
                 </div>
                 {cartItems.map((item,i) => ((
 
@@ -63,7 +63,7 @@ const Cart = () => {
                 <div className="flex  items-center justify-start flex-col p-2 sm:w-[30%]">
                     <div className="flex w-full sm:m-1 items-center justify-between">
                         <h1 className="text-[1.2rem] font-bold">Subtotal</h1>
-                        <h1 className="text-[1.2rem] font-bold">&#8377;{cartAmount}</h1>
+                        <h1 className="text-[1.2rem] font-bold">&#8377;{cartAmount.toFixed(2)}</h1>
                     </div>
                     <h1 className="w-full text-[1.2rem] sm:m-1">Delivery <span className="text-green-500">Free</span></h1>
                     <div className="sm:m-1 w-full flex items-center justify-between">

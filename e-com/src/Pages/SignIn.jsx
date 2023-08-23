@@ -17,12 +17,12 @@ const SignIn = () => {
     },[isLoggedIn,navigate])
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(!loading);
+        setLoading(true);
         setTimeout(() => {
             dispatch(signInUserAsync({email,password}))
             setEmail("");
             setPassword("");
-            setLoading(!loading)
+            setLoading(false)
         },2000)
         
         
