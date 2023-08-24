@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { productActions, productSelector, productsFetchFromApi } from "../redux/reducers/products/productReducer";
+import { productActions, productSelector, productsFetch } from "../redux/reducers/products/productReducer";
 import { BarLoader } from 'react-spinners'
 import ProductCard from "../Components/ProductCard";
 import { useEffect, useState } from "react";
@@ -9,25 +9,41 @@ const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [productFilter, setProductFilter] = useState([]);
     const [priceRange, setPriceRange] = useState(0);
-    const [initialPriceRange,setInitialPriceRange] = useState(30000);
-    const { items, status, isLoading,searchResults } = useSelector(productSelector);
-    console.log(items)
+    const [initialPriceRange, setInitialPriceRange] = useState(30000);
+    const { items, status, isLoading, searchResults } = useSelector(productSelector);
+    const [isSearching, setIsSearching] = useState(false);
     const { uid } = useSelector(authSelector);
     const dispatch = useDispatch();
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch(productsFetch());
+            dispatch(getCartAsync(uid));
+        }, 2000)
+
+
+    }, [])
+    useEffect(() => {
+
+        handleFilter();
+        setIsSearching(searchTerm || productFilter.length > 0 || priceRange > 0);
+
+
+    }, [searchTerm,productFilter,priceRange])
     const handleRange = (e) => {
-        setInitialPriceRange(e.target.value)
-        setPriceRange(e.target.value)
+        setInitialPriceRange(e.target.value);
+        setPriceRange(e.target.value);
     }
     const handleChange = (e) => {
-        
+
         setSearchTerm(e.target.value);
     }
     const handleCheckbox = (e) => {
         const value = e.target.value;
         const isChecked = e.target.checked;
-        if(isChecked){
-            setProductFilter([...productFilter,value]);
-        }else{
+
+        if (isChecked) {
+            setProductFilter([...productFilter, value]);
+        } else {
             setProductFilter(productFilter.filter((p) => p !== value));
         }
 
@@ -35,24 +51,21 @@ const Home = () => {
     }
     const handleFilter = () => {
         let filteredProducts = [];
-        
+
         if (items && items.length > 0) {
             filteredProducts = items.filter((product) => (
 
 
-                (product.price <= Number(priceRange)) &&
+                (product.price <= Number(initialPriceRange)) &&
                 (productFilter.length === 0 || productFilter.includes(product.category)) &&
                 (searchTerm === '' || product.title.toLowerCase().includes(searchTerm.toLowerCase())))
             );
+            
         }
+
         dispatch(productActions.updateSearchResults(filteredProducts));
     }
-    useEffect(() => {
-        dispatch(getCartAsync(uid));
-    }, [])
-    useEffect(() => {
-        handleFilter();
-    }, [productFilter,searchTerm,priceRange])
+
     return (<>
         {isLoading ? <div className="flex items-center justify-center "><BarLoader
             color="#36d7b7"
@@ -61,12 +74,12 @@ const Home = () => {
             <div className="w-[70%] overflow-y-scroll h-[90vh] pb-[50px] ">
                 <div className="w-full flex items-center justify-center">
                     <h1 className="text-center font-bold text-[2rem] m-2">New Arrivals</h1>
-                    
+
                 </div>
                 <div className="flex flex-wrap items-center justify-between p-5">
-                    {searchTerm || productFilter.length > 0 || priceRange  ? searchResults.map((product, i) => (
-                            <ProductCard product={product} key={i} />
-                        )) : 
+                    {isSearching ? searchResults.map((product, i) => (
+                        <ProductCard product={product} key={i} />
+                    )) :
                         items.map((product, i) => (
                             <ProductCard product={product} key={i} />
                         ))
@@ -87,10 +100,10 @@ const Home = () => {
 
 
                 <div className="flex items-center justify-between">
-                    <input type="checkbox" onChange={handleCheckbox} checked={productFilter.includes(`men's clothing`)} id= {`men's clothing`} value={`men's clothing`} className="m-1 sm:m-2" />
+                    <input type="checkbox" onChange={handleCheckbox} checked={productFilter.includes("men")} id="men" value="men" className="m-1 sm:m-2" />
                     <label htmlFor="smartphones" className="text-[0.8rem] sm:text-[1rem]">Men's Clothing</label>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                     <input type="checkbox" onChange={handleCheckbox} checked={productFilter.includes('jewelery')} id="jewelery" value="jewelery" className="m-1 sm:m-2" />
                     <label htmlFor="fragrances" className="text-[0.8rem] sm:text-[1rem]">Jewelery</label>
@@ -100,10 +113,10 @@ const Home = () => {
                     <label htmlFor="skincare" className="text-[0.8rem] sm:text-[1rem]">Electronics</label>
                 </div>
                 <div className="flex items-center justify-between">
-                    <input type="checkbox" onChange={handleCheckbox} checked={productFilter.includes(`women's clothing`)} id={"women's clothing"}  value={"women's clothing"} className="m-1 sm:m-2" />
+                    <input type="checkbox" onChange={handleCheckbox} checked={productFilter.includes("women")} id="women" value="women" className="m-1 sm:m-2" />
                     <label htmlFor="groceries" className="text-[0.8rem] sm:text-[1rem]">Women's Clothing</label>
                 </div>
-                
+
 
             </div>
         </div>}

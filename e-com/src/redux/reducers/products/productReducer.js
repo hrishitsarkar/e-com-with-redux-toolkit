@@ -8,11 +8,11 @@ const initialState = {
     isLoading : true,
     searchResults : [],
 }
-export const productsFetchFromApi = createAsyncThunk("products/productsFetchFromApi",
-async() => {
-    const res = await axios.get("https://fakestoreapi.com/products");
-    res.data.map(async(d) => await addDoc(collection(db, "/products"), d));
-})
+// export const productsFetchFromApi = createAsyncThunk("products/productsFetchFromApi",
+// async() => {
+//     const res = await axios.get("https://fakestoreapi.com/products");
+//     res.data.map(async(d) => await addDoc(collection(db, "/products"), d));
+// })
 export const productsFetch = createAsyncThunk("products/productsFetch", 
 async (_,thunkAPI) => {
     const unsub = onSnapshot(collection(db, "/products"), (snapshot) => {
@@ -21,6 +21,7 @@ async (_,thunkAPI) => {
             ...product.data()
         }
        }))
+       
        thunkAPI.dispatch(productActions.setProducts(products))
     });
 })

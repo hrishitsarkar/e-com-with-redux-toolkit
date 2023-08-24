@@ -4,7 +4,7 @@ import spirit from './spirit.png'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authSelector, signOutUserAsync } from '../redux/reducers/auth/authReducer';
 import { cartSelector } from '../redux/reducers/cart/cartReducer';
-import { productsFetchFromApi } from '../redux/reducers/products/productReducer';
+// import { productsFetchFromApi } from '../redux/reducers/products/productReducer';
 const Navbar = () => {
     const { isLoggedIn } = useSelector(authSelector);
     const { cartItems } = useSelector(cartSelector);
@@ -27,7 +27,7 @@ const Navbar = () => {
 
                 </div>
             </Link>
-            <button className='text-white hidden' onClick={() => productsFetchFromApi()}>Add</button>
+            {/* <button className='text-white hidden' onClick={() => productsFetchFromApi()}>Add</button> */}
             <div className='w-[50%] flex items-center justify-end'>
                 <NavLink to="/sign-up" style={({ isActive }) => ({
 
