@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { collection, addDoc, doc, onSnapshot, query, where, getDocs, updateDoc,deleteDoc } from "firebase/firestore";
 import { db } from "../../../firebaseInIt"
 import { toast } from "react-toastify";
+import { addOrderAsync } from "../order/orderReducer";
 const initialState = {
     cartItems: [],
     cartAmount: 0
@@ -11,7 +12,6 @@ export const clearCartAsync = createAsyncThunk("cart/clearCartAsync",async (uid,
     querySnapshot.forEach(async(document) => {
         await deleteDoc(doc(db, `/usersCarts/${uid}/myCart`, document.id))
       });
-      toast.info("All items cleared from Cart")
 })
 export const decreaseQtyAsync = createAsyncThunk("cart/decreaseQtyAsync", async ({item,uid},thunkAPI) => {
 try {
@@ -118,7 +118,10 @@ const cartSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-
+        builder.addCase(addOrderAsync,(state,action) => {
+            state.cartItems = [];
+            state.cartAmount = 0;
+        })
     }
 })
 

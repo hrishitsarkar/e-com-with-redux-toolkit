@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import spirit from './spirit.png'
+
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authSelector, signOutUserAsync } from '../redux/reducers/auth/authReducer';
 import { cartSelector } from '../redux/reducers/cart/cartReducer';
@@ -13,6 +14,7 @@ const Navbar = () => {
         dispatch(signOutUserAsync());
         navigate("/");
     }
+    
     return (<>
         <nav className="flex items-center w-full h-[70px] justify-between bg-black p-4 ">
             <Link to='/'>

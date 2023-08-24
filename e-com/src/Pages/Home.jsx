@@ -15,10 +15,11 @@ const Home = () => {
     const { uid } = useSelector(authSelector);
     const dispatch = useDispatch();
     const handleRange = (e) => {
+        setInitialPriceRange(e.target.value)
         setPriceRange(e.target.value)
     }
     const handleChange = (e) => {
-        setInitialPriceRange(e.target.value)
+        
         setSearchTerm(e.target.value);
     }
     const handleCheckbox = (e) => {
@@ -29,8 +30,6 @@ const Home = () => {
         }else{
             setProductFilter(productFilter.filter((p) => p !== value));
         }
-
-        
 
 
     }
@@ -46,7 +45,6 @@ const Home = () => {
                 (searchTerm === '' || product.title.toLowerCase().includes(searchTerm.toLowerCase())))
             );
         }
-        
         dispatch(productActions.updateSearchResults(filteredProducts));
     }
     useEffect(() => {
