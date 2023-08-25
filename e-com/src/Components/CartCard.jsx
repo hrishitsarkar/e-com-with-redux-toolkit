@@ -4,23 +4,33 @@ import { authSelector } from "../redux/reducers/auth/authReducer";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 const CartCard = ({ item }) => {
+    //useDispatch hook
     const dispatch = useDispatch();
+    //destructuring uid 
     const { uid } = useSelector(authSelector)
+    //local state for loading
     const [loading, setLoading] = useState(false)
+    //remove from cart handler function
     const removeFromCart = (item) => {
-        
+        //setting loading true for spinner
         setLoading(true);
         setTimeout(() => {
-            dispatch(deleteFromCartAsync({item, uid }))
+            //dispatching the async operation to delete from cart
+            dispatch(deleteFromCartAsync({ item, uid }))
+            //setting loading to false
             setLoading(false)
-        },1000)
+        }, 1000)
 
     }
+    //quantity decrease handler
     const decrease = (item) => {
-        dispatch(decreaseQtyAsync({item,uid}))
+        //dispatching async operation to decrease qty
+        dispatch(decreaseQtyAsync({ item, uid }))
     }
+    //quantity increase handler
     const increase = (item) => {
-        dispatch(increaseQtyAsync({item,uid}));
+        //dispatching async operation to increase qty
+        dispatch(increaseQtyAsync({ item, uid }));
     }
     return (
         <div className="p-2 flex items-center justify-between w-[90%] m-2 border-b-2 border-black">
@@ -33,7 +43,7 @@ const CartCard = ({ item }) => {
                     </svg>
                         <p className="ml-2 text-[0.8rem] sm:text-[1rem]">{item.rating.rate}</p>
                     </span>
-                    <button onClick={() => removeFromCart(item)} className="text-gray-400 bg-red-600 text-white rounded-lg cursor-pointer mt-5 text-[0.8rem] p-1 sm:text-[1.1rem]">{loading ? <div className="flex items-center justify-center"><ClipLoader color="#36d7b7" /></div> : "Remove" }</button>
+                    <button onClick={() => removeFromCart(item)} className="text-gray-400 bg-red-600 text-white rounded-lg cursor-pointer mt-5 text-[0.8rem] p-1 sm:text-[1.1rem]">{loading ? <div className="flex items-center justify-center"><ClipLoader color="#36d7b7" /></div> : "Remove"}</button>
                 </div>
             </div>
 

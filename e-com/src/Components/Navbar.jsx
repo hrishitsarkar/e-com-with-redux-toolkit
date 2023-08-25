@@ -6,15 +6,21 @@ import { authSelector, signOutUserAsync } from '../redux/reducers/auth/authReduc
 import { cartSelector } from '../redux/reducers/cart/cartReducer';
 // import { productsFetchFromApi } from '../redux/reducers/products/productReducer';
 const Navbar = () => {
+    //destructuring isLoggedIn from selector
     const { isLoggedIn } = useSelector(authSelector);
+    //destructuring cartItems from selector
     const { cartItems } = useSelector(cartSelector);
     const dispatch = useDispatch();
+    //to use useNavigate hook
     const navigate = useNavigate();
+    //handler for sign out
     const signOutUser = () => {
+        //dispatching async operation to sign out
         dispatch(signOutUserAsync());
+        //after signing out navigate to home page
         navigate("/");
     }
-    
+
     return (<>
         <nav className="flex items-center w-full h-[70px] justify-between bg-black p-4 ">
             <Link to='/'>
@@ -27,6 +33,7 @@ const Navbar = () => {
 
                 </div>
             </Link>
+            {/* this button was used to add products in the database which I have got from api */}
             {/* <button className='text-white hidden' onClick={() => productsFetchFromApi()}>Add</button> */}
             <div className='w-[50%] flex items-center justify-end'>
                 <NavLink to="/sign-up" style={({ isActive }) => ({
@@ -68,8 +75,8 @@ const Navbar = () => {
                 </NavLink>
                 <div onClick={signOutUser} className={isLoggedIn ? 'cursor-pointer flex  w-auto flex-col items-center justify-between m-2 ' : "hidden"}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-box-arrow-right text-white" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                        <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
                     </svg>
                     <span className='font-bold hidden text-white  sm:block'>Sign Out</span>
                 </div>

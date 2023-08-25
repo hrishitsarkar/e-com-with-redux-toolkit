@@ -7,10 +7,10 @@ import { store } from './redux/store';
 import { productsFetch } from './redux/reducers/products/productReducer';
 import { db } from './firebaseInIt';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-store.dispatch(productsFetch());
+// store.dispatch(productsFetch());
 root.render(
     <Provider store={store}>
-    <App />
+        <App />
     </Provider>
 );
 

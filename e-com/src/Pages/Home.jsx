@@ -6,41 +6,57 @@ import { useEffect, useState } from "react";
 import { authSelector } from "../redux/reducers/auth/authReducer";
 import { getCartAsync } from "../redux/reducers/cart/cartReducer";
 const Home = () => {
+    //storing the value of search input field when user searches
     const [searchTerm, setSearchTerm] = useState("");
+    //storing the checkbox value if users checked
     const [productFilter, setProductFilter] = useState([]);
+    ////storing the range value if users select the price range
     const [priceRange, setPriceRange] = useState(0);
     const [initialPriceRange, setInitialPriceRange] = useState(30000);
+    //destructuring items,isLoading,searchResults from selector
     const { items, status, isLoading, searchResults } = useSelector(productSelector);
+    //local component state toggler for conditional rendering
     const [isSearching, setIsSearching] = useState(false);
+    //destructuring uid from selector
     const { uid } = useSelector(authSelector);
     const dispatch = useDispatch();
+
     useEffect(() => {
         setTimeout(() => {
+            //dispatching async operation to get the products from database while the page mounts
             dispatch(productsFetch());
+            //dispatching async operation to get the cart 
             dispatch(getCartAsync(uid));
         }, 2000)
 
 
     }, [])
     useEffect(() => {
-
+        //filter function works if user searches or filter
         handleFilter();
+        //toggling isSearching to render from searchResults array
         setIsSearching(searchTerm || productFilter.length > 0 || priceRange > 0);
 
 
-    }, [searchTerm,productFilter,priceRange])
+    }, [searchTerm, productFilter, priceRange])
+    //handler for range
     const handleRange = (e) => {
+        //storing the value of range
         setInitialPriceRange(e.target.value);
         setPriceRange(e.target.value);
     }
+    //handler for search
     const handleChange = (e) => {
-
+        //storing the value of search
         setSearchTerm(e.target.value);
     }
+    //handler for checkbox
     const handleCheckbox = (e) => {
+        //storing value
         const value = e.target.value;
+        //storing if isChecked
         const isChecked = e.target.checked;
-
+        //if true the we add the value else we filter out the value 
         if (isChecked) {
             setProductFilter([...productFilter, value]);
         } else {
@@ -49,9 +65,10 @@ const Home = () => {
 
 
     }
+    //function to handle the filtering
     const handleFilter = () => {
         let filteredProducts = [];
-
+        //filtering with range , search and checkbox all at once
         if (items && items.length > 0) {
             filteredProducts = items.filter((product) => (
 
@@ -60,9 +77,9 @@ const Home = () => {
                 (productFilter.length === 0 || productFilter.includes(product.category)) &&
                 (searchTerm === '' || product.title.toLowerCase().includes(searchTerm.toLowerCase())))
             );
-            
-        }
 
+        }
+        //dispatching the action to update state in redux
         dispatch(productActions.updateSearchResults(filteredProducts));
     }
 

@@ -4,16 +4,21 @@ import { addToCartAsync } from "../redux/reducers/cart/cartReducer";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-const ProductCard = ( {product} ) => {
+const ProductCard = ({ product }) => {
+    //destructuring isLoggedIn and uid
     const { isLoggedIn, uid } = useSelector(authSelector);
+    //local state of loading to show spinners
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+    //handler for add to cart
     const addToCart = (product) => {
+        //setting loading to true to show spinner
         setIsLoading(true);
         setTimeout(() => {
+            //dispatching async operation to add to cart
             dispatch(addToCartAsync({ product, uid }))
+            // setting loading to false
             setIsLoading(false);
         }, 1000)
 
@@ -39,7 +44,7 @@ const ProductCard = ( {product} ) => {
                     <h1 className="font-bold">&#8377;{product.price}</h1>
                 </span>
             </div>
-            <button onClick={() => {isLoggedIn ? addToCart(product) : navigate('/sign-in') }} className="w-[80%] bg-facebook-blue text-white m-2 h-[50px] rounded-lg font-bold">{isLoading ? <div className="flex items-center justify-center"><ClipLoader color="#36d7b7" /><span className="font-bold">Adding...</span></div> : "Add to Cart"}</button>
+            <button onClick={() => { isLoggedIn ? addToCart(product) : navigate('/sign-in') }} className="w-[80%] bg-facebook-blue text-white m-2 h-[50px] rounded-lg font-bold">{isLoading ? <div className="flex items-center justify-center"><ClipLoader color="#36d7b7" /><span className="font-bold">Adding...</span></div> : "Add to Cart"}</button>
         </div>);
 }
 

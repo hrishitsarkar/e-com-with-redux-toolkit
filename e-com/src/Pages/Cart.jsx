@@ -6,46 +6,69 @@ import CartCard from "../Components/CartCard";
 import { Link, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { addOrderAsync } from "../redux/reducers/order/orderReducer";
-import {ClipLoader} from "react-spinners";
+import { ClipLoader } from "react-spinners";
 const Cart = () => {
+    //destructuring uid 
     const { uid } = useSelector(authSelector);
-    const { cartItems,cartAmount } = useSelector(cartSelector);
+    //destructuring cartItems and cartAmount
+    const { cartItems, cartAmount } = useSelector(cartSelector);
+    //local state for loading of cart
     const [loadCart, setLoadCart] = useState(false);
-    const [loadCheckOut,setLoadCheckOut] = useState(false);
+    //local state for loading while checkout
+    const [loadCheckOut, setLoadCheckOut] = useState(false);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    //handler for checkout
     const checkOut = () => {
+        //setting loading to true
         setLoadCheckOut(true);
         setTimeout(() => {
-            dispatch(addOrderAsync({cartItems,cartAmount,uid}));
+            //dispatching async operation to add order
+            dispatch(addOrderAsync({ cartItems, cartAmount, uid }));
+            //clearing cart after check out is complete
             dispatch(clearCartAsync(uid));
+            //setting loading to false
             setLoadCheckOut(false)
+            //navigating to orders page
             navigate('/orders')
-        },2000)
-        
+        }, 2000)
+
     }
+    //handler for clearing the cart
     const clearCart = () => {
+        //loading to true to show the spinner
         setLoadCart(true);
+
         setTimeout(() => {
+            //dispatching async operation to clear cart
             dispatch(clearCartAsync(uid));
+            //setting loading to false
             setLoadCart(false)
-        },1000)
-        
+        }, 1000)
+
     }
+
     useEffect(() => {
+        //loading to true to show the spinner
         setLoadCart(true);
         setTimeout(() => {
+            //dispatching async operation to get cart while the page mounts
             dispatch(getCartAsync(uid));
+            //getting the cart total
             dispatch(cartActions.getCartTotal());
+            //setting loading to false
             setLoadCart(false);
         }, 1000)
 
     }, [])
+
     useEffect(() => {
+        //dispatching action to update the cart total if cartItems array changes
         dispatch(cartActions.getCartTotal());
-    },[cartItems])
-    
-   
+    }, [cartItems])
+
+
     return (<div className="h-[90vh] overflow-auto">
         <h1 className="text-center m-2 font-bold text-[2rem]">Shopping Cart</h1>
         {loadCart ? <div className="flex items-center justify-center "><BarLoader
@@ -64,9 +87,9 @@ const Cart = () => {
                     <h1 className="font-bold">Price</h1>
                     <h1 className="font-bold">Quantity</h1>
 
-                    
+
                 </div>
-                {cartItems.map((item,i) => ((
+                {cartItems.map((item, i) => ((
 
                     <CartCard key={i} item={item} />
                 )))}
@@ -95,8 +118,8 @@ const Cart = () => {
                 </div>
             </div>
 
-            </>}
-            
+        </>}
+
 
     </div>);
 }
