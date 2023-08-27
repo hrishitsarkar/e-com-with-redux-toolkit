@@ -13,8 +13,8 @@ const OrderCard = ({ order }) => {
                 <img src={c.image} className=" w-[100px] h-[100px]" />
                 <p className="ml-5 h-[100px] w-[80%] overflow-hidden">{c.description}</p>
             </div>))}
-            <h1 className="text-[1.2rem] text-gray-400">Expected delivery by </h1>
-            <p>Friday , January 5 , 2099</p>
+            <h1 className=" text-[1.2rem] text-gray-400">Expected delivery by </h1>
+            <p className="">Friday , January 5 , 2099</p>
         </div>
 
 
